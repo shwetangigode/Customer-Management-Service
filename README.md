@@ -1,6 +1,6 @@
 # Customer Management Service
 
-The Customer Management Service is a robust REST API designed for efficiently managing customer objects and contract types within a PostgreSQL database. It is built on the Spring Boot framework, incorporating various modern technologies and practices to ensure reliable and scalable customer and contract-type management.
+The Customer Management Service is a robust REST API designed for efficiently managing customer objects and contract types within a PostgreSQL database. It is built on the Spring Boot framework.
 
 ## Project Structure
 
