@@ -1,40 +1,22 @@
-# Customer-Management-Service
-A REST API for managing customer objects and contract types in a PostgreSQL database
+# Customer Management Service
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Customer Management Service</title>
-</head>
-<body>
-    <h1>Customer Management Service</h1>
-    <p>A REST API for managing customer objects and contract types in a PostgreSQL database.</p>
+The Customer Management Service is a robust REST API designed for efficiently managing customer objects and contract types within a PostgreSQL database. It is built on the Spring Boot framework, incorporating various modern technologies and practices to ensure reliable and scalable customer and contract-type management.
 
-    <h2>Technologies Used</h2>
-    <ul>
-        <li><strong>Spring Boot:</strong> The framework for building the REST API.</li>
-        <li><strong>Java:</strong> The programming language for the API development.</li>
-        <li><strong>PostgreSQL:</strong> The relational database management system used for data storage.</li>
-        <li><strong>Spring Data JPA:</strong> For simplifying database operations in Spring Boot.</li>
-        <li><strong>Maven:</strong> The build and dependency management tool.</li>
-        <li><strong>Postman:</strong> A tool for testing and documenting APIs.</li>
-        <li><strong>JUnit:</strong> For unit testing the API.</li>
-    </ul>
+## Project Structure
 
-    <h2>Project Structure</h2>
-    <p>The project follows a typical Spring Boot project structure:</p>
+The project follows a typical Spring Boot project structure:
     <pre>
     ├── src
     │   ├── main
     │   │   ├── java
     │   │   │   └── com
-    │   │   │       └── yourcompany
-    │   │   │           └── customercontracts
+    │   │   │       └── customer
+    │   │   │           └── management
     │   │   │               ├── controller
-    │   │   │               ├── model
+    │   │   │               ├── entity
     │   │   │               ├── repository
-    │   │   │               ├── service
+    │   │   │               ├── services
+    |   |   |               ├── validators
     │   │   │               └── Application.java
     │   │   ├── resources
     │   │   │   ├── application.properties
@@ -43,39 +25,30 @@ A REST API for managing customer objects and contract types in a PostgreSQL data
     │   ├── test
     │   │   └── java
     │   │       └── com
-    │   │           └── yourcompany
-    │   │               └── customercontracts
+    │   │           └── customer
+    │   │               └── management
     │   │                   ├── controller
     │   │                   ├── service
     │   │                   └── ApplicationTests.java
     ├── target
     ├── pom.xml
-    └── README.html (this file)
-    </pre>
+    
 
-    <h2>Getting Started</h2>
-    <p>Follow these steps to set up and run the project:</p>
-    <ol>
-        <li>Clone the repository.</li>
-        <li>Configure your PostgreSQL database in <code>application.properties</code>.</li>
-        <li>Build the project using Maven: <code>mvn clean install</code>.</li>
-        <li>Run the Spring Boot application: <code>mvn spring-boot:run</code>.</li>
-        <li>Access the API using a tool like Postman.</li>
-    </ol>
+   ## Project Overview
+The primary goal of the Customer Management Service is to provide a flexible and efficient solution for managing customer objects and contract types. It supports Create, Read, Update, and Delete (CRUD) operations for both entities, making it versatile for various business use cases.
 
-    <h2>API Endpoints</h2>
-    <p>Document the available API endpoints and their usage here.</p>
+Customer Management: The system allows the creation, retrieval, modification, and deletion of customer profiles. Each customer can have various attributes, including name, account type, and associated business requirements. Additionally, detailed personal information such as sex, date of birth, and native place is supported through the "Customer" object.
 
-    <h2>Testing</h2>
-    <p>Unit tests are included in the project. Run them using <code>mvn test</code>.</p>
+Contract Type Management: The API also facilitates the management of contract types. Contract types are defined by a unique identifier (UUID) and a name. This feature enables organizations to define and categorize various contract types according to their needs.
 
-    <h2>Contributing</h2>
-    <p>Contributions are welcome. Please fork the repository and submit pull requests.</p>
+## Technologies Used
 
-    <h2>License</h2>
-    <p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
-
-    <h2>Authors</h2>
-    <p>Include your name and contact information here.</p>
-</body>
-</html>
+![Java](https://img.shields.io/badge/Java-2F2625?style=for-the-badge&logo=coffeescript&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33FF?style=for-the-badge&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/apache%20maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+![RESTful Web Services](https://img.shields.io/badge/Rest%20APis-FF4F8B?style=for-the-badge&logo=amazonapigateway&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![JUnit5](https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)
+![Git](https://img.shields.io/badge/Git-f44d27?style=for-the-badge&logo=git&logoColor=white)
+![Eclipse IDE](https://img.shields.io/badge/eclipse%20ide-2C2255?style=for-the-badge&logo=eclipseide&logoColor=white)
