@@ -5,7 +5,7 @@ The Customer Management Service is a robust REST API designed for efficiently ma
 ## Project Structure
 
 The project follows a typical Spring Boot project structure:
-    <pre>
+    
     ├── src
     │   ├── main
     │   │   ├── java
