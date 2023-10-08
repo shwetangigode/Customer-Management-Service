@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.customer.management.entity.Customer;
+import com.customer.management.exception.customer.CustomerNotFoundException;
+import com.customer.management.exception.customer.InvalidInputException;
+import com.customer.management.model.CustomerModel;
 import com.customer.management.services.CustomerService;
 
 import jakarta.validation.Valid;
@@ -34,12 +37,11 @@ public class CustomerController {
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Object> createCustomer(@Valid @RequestBody Customer customer) {
-		if (customer == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer is null");
+	public ResponseEntity<Object> createCustomer(@Valid @RequestBody CustomerModel customerModel) {
+		if (customerModel == null) {
+			throw new InvalidInputException("Given data is invalid please pass it right information");
 		}
-
-		ResponseEntity<Customer> createdCustomer = customerService.createCustomer(customer);
+		ResponseEntity<CustomerModel> createdCustomer = customerService.createCustomer(customerModel);
 		return ResponseEntity.ok(createdCustomer.getBody());
 	}
 
@@ -52,19 +54,18 @@ public class CustomerController {
 	public ResponseEntity<Object> getCustomerById(@PathVariable Long customerId) {
 		Optional<Customer> customerOptional = customerService.getCustomerById(customerId);
 
-		if (customerOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.OK).body(customerOptional.get());
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found with ID: " + customerId);
-		}
+		return customerOptional
+				.<ResponseEntity<Object>>map(customerModel -> ResponseEntity.status(HttpStatus.OK).body(customerModel))
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body("Customer not found with ID: " + customerId));
 	}
 
 	@PutMapping
-	public ResponseEntity<Object> updateCustomer(@RequestBody Customer updatedCustomer) {
-		ResponseEntity<Customer> customer = customerService.updateCustomer(updatedCustomer.getId(), updatedCustomer);
+	public ResponseEntity<CustomerModel> updateCustomer(@RequestBody CustomerModel updatedCustomerModel) {
+		ResponseEntity<CustomerModel> customer = customerService.updateCustomer(updatedCustomerModel.getId(),
+				updatedCustomerModel);
 		if (customer == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body("Customer not found with ID: " + updatedCustomer.getId());
+			throw new CustomerNotFoundException("The given Customer data could not be found in database");
 		}
 		return ResponseEntity.ok(customer.getBody());
 	}
@@ -72,7 +73,7 @@ public class CustomerController {
 	@DeleteMapping("/{customerId}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable Long customerId) {
 		if (customerService.deleteCustomer(customerId)) {
-			return ResponseEntity.ok("Customer Deleted Successfully");
+			return ResponseEntity.ok("Customer Deleted Successfully with the ID ->" + customerId);
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer Not Found");
 		}

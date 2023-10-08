@@ -17,62 +17,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.customer.management.entity.ContractType;
+import com.customer.management.exception.contract.InvalidContractID;
+import com.customer.management.exception.contract.InvalidContractType;
+import com.customer.management.model.ContractTypeModel;
 import com.customer.management.services.ContractTypeService;
 
 @RestController
 @RequestMapping("/contract_types")
 public class ContractTypeController {
 
-	private final ContractTypeService contractTypeService;
+    private final ContractTypeService contractTypeService;
 
-	@Autowired
-	public ContractTypeController(ContractTypeService contractTypeService) {
-		this.contractTypeService = contractTypeService;
-	}
+    @Autowired
+    public ContractTypeController(ContractTypeService contractTypeService) {
+        this.contractTypeService = contractTypeService;
+    }
 
-	@PostMapping
-	public ResponseEntity<Object> createContractType(@RequestBody ContractType contractType) {
-		if (contractType == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Contract type is null");
-		}
-		ResponseEntity<ContractType> createdContractType = contractTypeService.createContractType(contractType);
-		return ResponseEntity.ok(createdContractType.getBody());
-	}
+    @PostMapping
+    public ResponseEntity<Object> createContractType(@RequestBody ContractTypeModel contractTypeModel) {
+        if (contractTypeModel == null) {
+            throw new InvalidContractType("Given contract type is invalid");
+        }
+        ResponseEntity<ContractType> createdContractType = contractTypeService.createContractType(contractTypeModel);
+        return ResponseEntity.ok(createdContractType.getBody());
+    }
 
-	@GetMapping
-	public List<ContractType> getAllContractTypes() {
-		return contractTypeService.getAllContractTypes();
-	}
+    @GetMapping
+    public List<ContractType> getAllContractTypes() {
+        return contractTypeService.getAllContractTypes();
+    }
 
-	@GetMapping("/{contractTypeId}")
-	public ResponseEntity<Object> getContractTypeById(@PathVariable UUID contractTypeId) {
-		Optional<ContractType> contractTypeOptional = contractTypeService.getContractTypeById(contractTypeId);
-		if (contractTypeOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.OK).body(contractTypeOptional.get());
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body("ContractType not found with ID: " + contractTypeId);
-		}
-	}
+    @GetMapping("/{contractTypeId}")
+    public ResponseEntity<Object> getContractTypeById(@PathVariable UUID contractTypeId) {
+        Optional<ContractType> contractTypeOptional = contractTypeService.getContractTypeById(contractTypeId);
+        return contractTypeOptional.<ResponseEntity<Object>>map(contractTypeModel ->
+                ResponseEntity.status(HttpStatus.OK).body(contractTypeModel)).orElseGet(() ->
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("ContractType not found with ID: " + contractTypeId));
+    }
 
-	@PutMapping("/{contractTypeId}")
-	public ResponseEntity<Object> updateContractType(@PathVariable UUID contractTypeId,
-			@RequestBody ContractType updatedContractType) {
-		ContractType contractType = contractTypeService.updateContractType(contractTypeId, updatedContractType);
-		if (contractType == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body("ContractType not found with ID: " + contractTypeId);
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(contractType);
-	}
+    @PutMapping("/{contractTypeId}")
+    public ResponseEntity<Object> updateContractType(@PathVariable UUID contractTypeId,
+                                                     @RequestBody ContractTypeModel updatedContractTypeModel) {
+        ContractType contractTypeModel = contractTypeService
+                .updateContractType(contractTypeId, updatedContractTypeModel);
+        if (contractTypeModel == null) {
+        	throw new InvalidContractID("Given contract ID is invalid");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(contractTypeModel);
+    }
 
-	@DeleteMapping("/{contractTypeId}")
-	public ResponseEntity<String> deleteContractType(@PathVariable UUID contractTypeId) {
-		if (contractTypeService.deleteContractType(contractTypeId)) {
-			return ResponseEntity.ok("Contract Type Deleted Successfully");
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body("Contract Type ID " + contractTypeId + "not Found.");
-		}
-	}
+    @DeleteMapping("/{contractTypeId}")
+    public ResponseEntity<String> deleteContractType(@PathVariable UUID contractTypeId) {
+        if (contractTypeService.deleteContractType(contractTypeId)) {
+            return ResponseEntity.ok("Contract Type Deleted Successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Contract Type ID " + contractTypeId + "not Found.");
+        }
+    }
 }

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.customer.management.exception.customer.InvalidDateOfBirthException;
 import com.customer.management.validators.interfaces.DateOfBirthConstraint;
 
 import jakarta.validation.ConstraintValidator;
@@ -28,9 +29,9 @@ public class DateOfBirthValidator implements ConstraintValidator<DateOfBirthCons
 			if (year < MAX_YEAR) {
 				return true;
 			}
+			throw new InvalidDateOfBirthException("Invalid date of birth format or must be less than 2002");
 		} catch (ParseException e) {
 			return false; // Date format is not valid
 		}
-		return false;
 	}
 }
