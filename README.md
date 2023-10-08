@@ -12,12 +12,15 @@ The project follows a typical Spring Boot project structure:
     │   │   │   └── com
     │   │   │       └── customer
     │   │   │           └── management
+    |   |   |               |── configuration
     │   │   │               ├── controller
     │   │   │               ├── entity
+    │   │   │               ├── exception
+    │   │   │               ├── model
     │   │   │               ├── repository
     │   │   │               ├── services
     |   |   |               ├── validators
-    │   │   │               └── Application.java
+    │   │   │               └── CustomerManagementServiceApplication.java
     │   │   ├── resources
     │   │   │   ├── application.properties
     │   │   │   ├── static
@@ -29,7 +32,7 @@ The project follows a typical Spring Boot project structure:
     │   │               └── management
     │   │                   ├── controller
     │   │                   ├── service
-    │   │                   └── ApplicationTests.java
+    │   │                   └── CustomerManagementServiceApplication.java
     ├── target
     ├── pom.xml
     
